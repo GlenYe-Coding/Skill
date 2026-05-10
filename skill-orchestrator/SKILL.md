@@ -1,52 +1,110 @@
 ---
 name: skill-orchestrator
-description: 企业级智能技能编排器。在每次对话开始时自动分析用户请求，识别需要调用的 skills，制定执行计划，并按最优策略调用相关 skills。包含自动化匹配引擎、性能监控、配置管理、测试工具等企业级功能。适用于所有需要多技能协作的复杂任务场景。
+description: >
+  Enterprise-grade skill orchestrator. Automatically analyzes user requests at the start of every conversation, 
+  checks for 'find-skills' availability, updates the skills database weekly, matches required skills, 
+  and executes them in an optimal order. Includes auto-installation, intent recognition, and cross-model compatibility.
+  Triggers: "每次对话前", "技能编排", "自动安装", "skill调度", "find-skills检查".
 ---
 
 # Skill Orchestrator - 企业级智能技能编排器
 
-## 🏢 企业级特性
+## 🎯 核心职责 (Core Responsibilities)
 
-### ✨ 核心功能
+在**每次对话开始时**，必须严格按以下顺序执行：
 
-1. **智能匹配引擎** (`scripts/skill_matcher.py`)
-   - 基于关键词和语义相似度的多维度评分
-   - 可配置的匹配规则和权重
-   - 自动生成执行计划
-   - 输出详细匹配报告
+1. **环境前置检查**：确保 `find-skills` 可用且 `skills_database.json` 为最新。
+2. **意图分析与匹配**：分析用户请求，从数据库中匹配最合适的 skills。
+3. **自动安装与执行**：处理缺失的 skills，并按计划执行。
 
-2. **性能监控系统** (`scripts/performance_monitor.py`)
-   - 实时收集执行指标
-   - 生成日/周/月性能报告
-   - P50/P95/P99 延迟分析
-   - 自动优化建议
+---
 
-3. **配置管理中心** (`config/matching_rules.json`)
-   - 灵活的匹配规则配置
-   - 用户偏好设置
-   - 日志和监控配置
-   - 热重载支持
+## 🛠️ 执行流程 (Execution Workflow)
 
-4. **完整测试套件** (`scripts/test_orchestrator.py`)
-   - 单元测试和集成测试
-   - 性能基准测试
-   - 回归测试
-   - 自动化测试报告
+### 【步骤 1】环境前置检查 (Pre-flight Checks)
 
-5. **日志和追踪**
-   - 结构化日志记录
-   - 执行历史追踪
-   - 错误分析和告警
-   - 审计日志
+#### 1.1 检查 find-skills 是否安装
+*   **操作**：尝试运行 `npx skills --version`。
+*   **如果失败**：
+    *   提示用户：`⚠️ 检测到 find-skills 未安装，这是技能编排的核心依赖。`
+    *   询问用户是否安装：`npm install -g @anthropic-ai/skills`。
+    *   **等待用户确认后继续。**
 
-6. **自动 Skill 安装** (`scripts/skill_installer.py`) ⭐ 新增
-   - Skills 数据库管理（18+ skills）
-   - 自动检测缺失 skills
-   - 一键安装所有缺失 skills
-   - 智能搜索和推荐
-   - 安装历史记录
+#### 1.2 检查 skills_database.json 是否需要更新
+*   **操作**：读取 `config/skills_database.json` 中的 `metadata.last_updated`。
+*   **判断**：如果最后更新时间超过 7 天，或文件不存在。
+*   **如果需更新**：
+    *   提示用户：`🔄 技能数据库已超过 7 天未更新，建议执行周更流程。`
+    *   调用 **周更流程**（见下方【步骤 4】）。
 
-## 核心职责
+---
+
+### 【步骤 2】意图分析与匹配 (Intent & Matching)
+
+1.  **提取意图**：分析用户请求的动作（创建/审查/调试）、目标（项目/代码/API）和技术栈（Java/Python等）。
+2.  **查询数据库**：在 `config/skills_database.json` 中查找匹配的 skills。
+    *   *优先匹配 P0/P1 级 skills。*
+3.  **如果数据库中未找到**：
+    *   调用 `npx skills find <关键词>` 进行搜索。
+    *   展示搜索结果，询问用户是否安装并加入数据库。
+
+---
+
+### 【步骤 3】执行与安装 (Execution & Installation)
+
+1.  **检查安装状态**：对于匹配到的 skills，确认其是否已安装。
+2.  **处理未安装 Skills**：
+    *   提示用户：`❌ 发现缺失 skill: [名称]。是否现在安装？`
+    *   用户确认后，执行：`npx skills add [source]@[name] -g -y`。
+    *   更新 `skills_database.json` 中的 `installed` 状态为 `true`。
+3.  **执行 Skills**：按优先级顺序调用匹配的 skills 处理用户请求。
+4.  **整合结果**：将各 skill 的输出整合为最终响应。
+
+---
+
+### 【步骤 4】周更流程 (Weekly Update Process)
+
+*当触发数据库更新时执行：*
+
+1.  **抓取热门 Skills**：
+    *   运行 `npx skills find best popular` 或访问 `https://skills.sh/`。
+    *   重点关注：`anthropics/skills`, `vercel-labs/agent-skills`, `mcollina/skills`。
+2.  **数据清洗**：
+    *   过滤安装数 < 100 或评分过低的 skills。
+    *   按分类（Core, Language, Architecture 等）筛选 Top 10。
+3.  **更新数据库**：
+    *   将新 skills 添加到 `config/skills_database.json`（标记为 `installed: false`）。
+    *   更新 `metadata.last_updated` 为当前时间。
+4.  **生成报告**：在 `output/` 目录下保存本次更新的简要日志。
+
+---
+
+## 📂 数据结构参考 (Database Schema)
+
+`config/skills_database.json` 结构如下：
+```json
+{
+  "metadata": { "last_updated": "2026-05-10T00:00:00Z" },
+  "skills_database": {
+    "core_development": [
+      {
+        "name": "code-review-and-quality",
+        "triggers": ["审查", "review"],
+        "priority": "P0",
+        "installed": true,
+        "source": "addyosmani/agent-skills"
+      }
+    ]
+  }
+}
+```
+
+---
+
+## 💡 跨模型兼容说明 (Cross-Model Compatibility)
+
+*   **本地增强模式**：如果当前环境支持 Python，请优先调用 `python scripts/run.py "<用户请求>"` 以获得最佳的意图匹配和自动化体验。
+*   **通用回退模式**：如果无法执行脚本，请严格遵循上述【步骤 1】至【步骤 3】的手动指令，利用 `npx skills` 完成编排任务。
 
 在**每次对话开始时**自动执行以下流程：
 
