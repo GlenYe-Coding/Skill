@@ -77,32 +77,42 @@ class KeywordMatcher:
         根据关键词列表匹配 skills
         
         评分规则：
-        - 每匹配一个关键词 +20 分
-        - 匹配到完整触发词 +40 分
+        - 精确匹配关键词 +20 分
+        - 子串匹配（短语包含） +15 分
         """
         scores = Counter()
         matched_keywords = {}
+        original_text = " ".join(keywords)
 
-        for keyword in keywords:
-            if keyword in self.index:
-                for skill_name in self.index[keyword]:
+        # 1. 遍历所有技能进行匹配
+        for skill_name, skill in self.skills_map.items():
+            for trigger in skill.get("triggers", []):
+                trigger_lower = trigger.lower() if isinstance(trigger, str) else str(trigger).lower()
+                
+                # 检查触发词是否存在于用户输入的任意分词或整体中
+                is_matched = False
+                for kw in keywords:
+                    if kw.lower() == trigger_lower or trigger_lower in kw.lower() or kw.lower() in trigger_lower:
+                        is_matched = True
+                        break
+                
+                if is_matched:
                     scores[skill_name] += 20
                     if skill_name not in matched_keywords:
                         matched_keywords[skill_name] = []
-                    matched_keywords[skill_name].append(keyword)
+                    matched_keywords[skill_name].append(trigger)
 
         results = []
         for skill_name, score in scores.most_common():
             skill = self.skills_map.get(skill_name)
             if skill:
-                # 归一化分数
                 normalized_score = min(score, 100)
                 results.append(MatchResult(
                     skill_name=skill_name,
                     score=normalized_score,
                     priority=skill.get("priority", "P2"),
-                    matched_keywords=matched_keywords.get(skill_name, []),
-                    reason=f"匹配到 {len(matched_keywords.get(skill_name, []))} 个关键词"
+                    matched_keywords=list(set(matched_keywords.get(skill_name, []))),
+                    reason=f"匹配到 {len(set(matched_keywords.get(skill_name, [])))} 个触发词"
                 ))
         
         return results

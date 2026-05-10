@@ -44,14 +44,14 @@ class SelfUpdater:
         return False
 
     def check_and_update(self):
-        """执行更新检查"""
+        """执行更新检查（基于 Git 本地提交时间对比）"""
         if not self.should_update():
             return
 
         print("🔄 正在检查 skill-orchestrator 自身更新...")
         
         try:
-            # 获取 GitHub 最新提交时间
+            # 1. 获取 GitHub 最新提交时间
             api_url = f"https://api.github.com/repos/{self.repo_url}/commits?per_page=1"
             req = urllib.request.Request(api_url, headers={"Accept": "application/vnd.github.v3+json"})
             with urllib.request.urlopen(req, timeout=10) as response:
@@ -60,26 +60,61 @@ class SelfUpdater:
                     remote_date_str = commits[0]['commit']['committer']['date']
                     remote_date = datetime.fromisoformat(remote_date_str.replace('Z', '+00:00'))
                     
-                    # 获取本地最后更新时间（简单起见，这里对比文件修改时间或记录在 config 中）
-                    # 此处简化逻辑：直接尝试 git pull
-                    if self._has_git():
-                        print("⏳ 发现新版本，正在执行 git pull...")
-                        result = subprocess.run(["git", "pull"], capture_output=True, text=True)
-                        if result.returncode == 0:
-                            if "Already up to date" in result.stdout:
-                                print("✅ 当前已是最新版本")
-                            else:
+                    # 2. 获取本地 Git 仓库的最新提交时间
+                    local_date = self._get_local_git_time()
+                    
+                    # 3. 对比时间戳
+                    if local_date and remote_date > local_date:
+                        print(f"⏳ 发现新版本 (远程: {remote_date.strftime('%m-%d %H:%M')} | 本地: {local_date.strftime('%m-%d %H:%M')})")
+                        if self._has_git():
+                            result = subprocess.run(["git", "pull"], capture_output=True, text=True)
+                            if result.returncode == 0:
                                 print("✅ 更新成功！请重启 orchestrator 以应用更改。")
-                        else:
-                            print(f"⚠️  更新失败: {result.stderr}")
-            
-            # 记录本次检查时间
-            os.makedirs(os.path.dirname(self.last_check_file), exist_ok=True)
-            with open(self.last_check_file, 'w') as f:
-                json.dump({"last_check": datetime.now().isoformat()}, f)
+                                self._update_local_version(remote_date_str)
+                            else:
+                                print(f"⚠️  Git pull 失败: {result.stderr}")
+                    else:
+                        print("✅ 当前已是最新版本")
+                        self._record_check_time()
 
+        except urllib.error.HTTPError as e:
+            if e.code == 403:
+                print("⚠️  GitHub API 速率限制，跳过本次自更新检查")
+            else:
+                print(f"⚠️  自更新检查出错: {e}")
         except Exception as e:
             print(f"⚠️  自更新检查出错: {e}")
+
+    def _get_local_git_time(self):
+        """获取本地 Git 仓库最新一次提交的时间"""
+        try:
+            result = subprocess.run(
+                ["git", "log", "-1", "--format=%ci"], 
+                capture_output=True, text=True, check=True
+            )
+            time_str = result.stdout.strip()
+            # Git 输出格式如: 2026-05-10 07:00:00 +0000
+            # 转换为 datetime 对象
+            return datetime.strptime(time_str[:19], "%Y-%m-%d %H:%M:%S")
+        except:
+            return None
+
+    def _update_local_version(self, version_time_str):
+        """更新本地记录的版本时间和最后更新时间"""
+        self.config["last_version_time"] = version_time_str
+        # 记录本次执行更新的时间点
+        self.config["last_update_time"] = datetime.now().isoformat()
+        
+        with open(self.config_path, 'w', encoding='utf-8') as f:
+            json.dump(self.config, f, indent=2, ensure_ascii=False)
+        
+        self._record_check_time()
+
+    def _record_check_time(self):
+        """记录本次 API 检查时间（用于限流控制）"""
+        os.makedirs(os.path.dirname(self.last_check_file), exist_ok=True)
+        with open(self.last_check_file, 'w') as f:
+            json.dump({"last_check": datetime.now().isoformat()}, f)
 
     def _has_git(self):
         """检查是否安装了 git"""

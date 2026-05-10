@@ -21,12 +21,12 @@ class IntentExtractor:
     def __init__(self):
         # 预定义意图模式 (Action Patterns)
         self.intent_patterns = {
-            'create': r'(创建|新建|生成|建立|初始化|搭建)',
+            'create': r'(创建|新建|生成|建立|初始化|搭建|写)',
             'review': r'(审查|检查|review|审计|评估|检视)',
             'debug': r'(调试|修复|bug|错误|异常|报错|解决)',
             'refactor': r'(重构|优化|改进|清理|简化|enhance)',
             'test': r'(测试|验证|单元测试|集成测试|校验)',
-            'document': r'(文档|说明|readme|注释|解释)',
+            'document': r'(文档|说明|readme|注释|解释|提交信息|commit)',
             'deploy': r'(部署|发布|上线|docker|k8s|publish)',
             'search': r'(查找|搜索|寻找|有没有|find)',
         }

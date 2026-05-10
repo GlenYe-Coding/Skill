@@ -1,0 +1,99 @@
+{
+  "skills_database": {
+    "core_development": [
+      {
+        "name": "create-skill",
+        "description": "创建新的 skill",
+        "triggers": [
+          "创建 skill",
+          "编写 skill",
+          "新 skill",
+          "skill 文档"
+        ],
+        "priority": "P0",
+        "category": "creation",
+        "source": "builtin",
+        "installed": true
+      },
+      {
+        "name": "find-skills",
+        "description": "查找和安装 skills",
+        "triggers": [
+          "查找 skill",
+          "安装 skill",
+          "有没有 skill",
+          "推荐 skill"
+        ],
+        "priority": "P0",
+        "category": "discovery",
+        "source": "builtin",
+        "installed": true
+      },
+      {
+        "name": "systematic-debugging",
+        "description": "系统化调试",
+        "triggers": [
+          "bug",
+          "错误",
+          "调试",
+          "不工作",
+          "异常",
+          "报错"
+        ],
+        "priority": "P0",
+        "category": "debugging",
+        "source": "anthropics/skills",
+        "installed": true
+      }
+    ],
+    "advanced_tools": [
+      {
+        "name": "git-commit-helper",
+        "description": "生成规范的 Git 提交信息",
+        "triggers": [
+          "写 commit",
+          "提交信息",
+          "git log",
+          "代码提交",
+          "git",
+          "commit",
+          "版本控制",
+          "分支",
+          "智能体",
+          "agent",
+          "AI助手"
+        ],
+        "priority": "P2",
+        "category": "productivity",
+        "source": "VoltAgent/awesome-agent-skills",
+        "installed": false
+      },
+      {
+        "name": "sql-optimizer",
+        "description": "SQL 查询性能分析与优化",
+        "triggers": [
+          "SQL 慢查询",
+          "索引优化",
+          "数据库调优",
+          "explain sql",
+          "database",
+          "sql",
+          "性能",
+          "优化"
+        ],
+        "priority": "P1",
+        "category": "database",
+        "source": "VoltAgent/awesome-agent-skills",
+        "installed": false
+      }
+    ]
+  },
+  "auto_install_settings": {
+    "enabled": true,
+    "prompt_before_install": true
+  },
+  "metadata": {
+    "last_updated": "2026-05-10T07:01:41.384056+00:00",
+    "total_skills": 5
+  }
+}
