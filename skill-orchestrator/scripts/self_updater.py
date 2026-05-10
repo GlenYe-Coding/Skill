@@ -48,7 +48,7 @@ class SelfUpdater:
         if not self.should_update():
             return
 
-        print("🔄 正在检查 skill-orchestrator 自身更新...")
+        # print("🔄 正在检查 skill-orchestrator 自身更新...") # 静默检查
         
         try:
             # 1. 获取 GitHub 最新提交时间
@@ -65,25 +65,25 @@ class SelfUpdater:
                     
                     # 3. 对比时间戳
                     if local_date and remote_date > local_date:
-                        print(f"⏳ 发现新版本 (远程: {remote_date.strftime('%m-%d %H:%M')} | 本地: {local_date.strftime('%m-%d %H:%M')})")
+                        print(f"\n⏳ [AUTO-UPDATE] 发现新版本 (远程: {remote_date.strftime('%m-%d %H:%M')} | 本地: {local_date.strftime('%m-%d %H:%M')})")
                         if self._has_git():
                             result = subprocess.run(["git", "pull"], capture_output=True, text=True)
                             if result.returncode == 0:
-                                print("✅ 更新成功！请重启 orchestrator 以应用更改。")
+                                print("✅ [AUTO-UPDATE] 更新成功！请重启 orchestrator 以应用更改。")
                                 self._update_local_version(remote_date_str)
                             else:
-                                print(f"⚠️  Git pull 失败: {result.stderr}")
+                                print(f"⚠️  [AUTO-UPDATE] Git pull 失败: {result.stderr}")
                     else:
-                        print("✅ 当前已是最新版本")
+                        # 已是最新版，完全静默
                         self._record_check_time()
 
         except urllib.error.HTTPError as e:
             if e.code == 403:
-                print("⚠️  GitHub API 速率限制，跳过本次自更新检查")
+                pass # 静默跳过限流
             else:
-                print(f"⚠️  自更新检查出错: {e}")
+                print(f"\n⚠️  [AUTO-UPDATE] 检查出错: {e}")
         except Exception as e:
-            print(f"⚠️  自更新检查出错: {e}")
+            print(f"\n⚠️  [AUTO-UPDATE] 检查出错: {e}")
 
     def _get_local_git_time(self):
         """获取本地 Git 仓库最新一次提交的时间"""

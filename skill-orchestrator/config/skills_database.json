@@ -8,7 +8,9 @@
           "创建 skill",
           "编写 skill",
           "新 skill",
-          "skill 文档"
+          "skill 文档",
+          "skill 模板",
+          "开发 skill"
         ],
         "priority": "P0",
         "category": "creation",
@@ -22,11 +24,31 @@
           "查找 skill",
           "安装 skill",
           "有没有 skill",
-          "推荐 skill"
+          "推荐 skill",
+          "搜索 skill",
+          "发现 skill"
         ],
         "priority": "P0",
         "category": "discovery",
         "source": "builtin",
+        "installed": true
+      },
+      {
+        "name": "code-review-and-quality",
+        "description": "代码审查和质量检查",
+        "triggers": [
+          "审查",
+          "review",
+          "PR",
+          "代码检查",
+          "合并前",
+          "代码质量",
+          "检视",
+          "审计"
+        ],
+        "priority": "P0",
+        "category": "quality",
+        "source": "anthropics/skills",
         "installed": true
       },
       {
@@ -38,10 +60,139 @@
           "调试",
           "不工作",
           "异常",
-          "报错"
+          "报错",
+          "修复",
+          "排错",
+          "问题解决"
         ],
         "priority": "P0",
         "category": "debugging",
+        "source": "anthropics/skills",
+        "installed": true
+      },
+      {
+        "name": "refactor",
+        "description": "代码重构和优化",
+        "triggers": [
+          "重构",
+          "优化代码",
+          "清理代码",
+          "改进结构",
+          "简化",
+          "代码优化",
+          "消除重复",
+          "提取函数"
+        ],
+        "priority": "P0",
+        "category": "refactoring",
+        "source": "anthropics/skills",
+        "installed": true
+      }
+    ],
+    "language_specific": [
+      {
+        "name": "java-springboot",
+        "description": "Spring Boot 最佳实践",
+        "triggers": [
+          "Spring Boot",
+          "Java 后端",
+          "Spring",
+          "REST API",
+          "微服务",
+          "Maven",
+          "Gradle"
+        ],
+        "priority": "P1",
+        "category": "language",
+        "source": "anthropics/skills",
+        "installed": true
+      },
+      {
+        "name": "python-design-patterns",
+        "description": "Python 设计模式",
+        "triggers": [
+          "Python",
+          "设计模式",
+          "Python 架构",
+          "类设计",
+          "面向对象",
+          "SOLID"
+        ],
+        "priority": "P1",
+        "category": "language",
+        "source": "anthropics/skills",
+        "installed": true
+      }
+    ],
+    "architecture_design": [
+      {
+        "name": "improve-codebase-architecture",
+        "description": "架构改进和模块解耦",
+        "triggers": [
+          "架构",
+          "重构架构",
+          "改进结构",
+          "模块解耦",
+          "系统设计",
+          "代码组织",
+          "分层架构"
+        ],
+        "priority": "P1",
+        "category": "architecture",
+        "source": "anthropics/skills",
+        "installed": true
+      },
+      {
+        "name": "mermaid-diagrams",
+        "description": "绘制图表和可视化",
+        "triggers": [
+          "图表",
+          "流程图",
+          "架构图",
+          "可视化",
+          "diagram",
+          "UML",
+          "时序图",
+          "类图"
+        ],
+        "priority": "P1",
+        "category": "visualization",
+        "source": "anthropics/skills",
+        "installed": true
+      }
+    ],
+    "documentation_testing": [
+      {
+        "name": "documentation-writer",
+        "description": "编写技术文档",
+        "triggers": [
+          "文档",
+          "README",
+          "写文档",
+          "说明",
+          "API 文档",
+          "注释",
+          "使用指南"
+        ],
+        "priority": "P2",
+        "category": "documentation",
+        "source": "anthropics/skills",
+        "installed": true
+      },
+      {
+        "name": "webapp-testing",
+        "description": "Web 应用测试",
+        "triggers": [
+          "测试",
+          "Web 测试",
+          "Playwright",
+          "UI 测试",
+          "E2E",
+          "单元测试",
+          "集成测试"
+        ],
+        "priority": "P2",
+        "category": "testing",
         "source": "anthropics/skills",
         "installed": true
       }
@@ -58,10 +209,7 @@
           "git",
           "commit",
           "版本控制",
-          "分支",
-          "智能体",
-          "agent",
-          "AI助手"
+          "分支"
         ],
         "priority": "P2",
         "category": "productivity",
@@ -85,6 +233,23 @@
         "category": "database",
         "source": "VoltAgent/awesome-agent-skills",
         "installed": false
+      },
+      {
+        "name": "api-security",
+        "description": "API 安全检查和加固",
+        "triggers": [
+          "API 安全",
+          "安全检查",
+          "漏洞",
+          "认证",
+          "授权",
+          "JWT",
+          "CORS"
+        ],
+        "priority": "P1",
+        "category": "security",
+        "source": "hardw00t/ai-security-arsenal",
+        "installed": false
       }
     ]
   },
@@ -94,6 +259,6 @@
   },
   "metadata": {
     "last_updated": "2026-05-10T07:01:41.384056+00:00",
-    "total_skills": 5
+    "total_skills": 13
   }
 }

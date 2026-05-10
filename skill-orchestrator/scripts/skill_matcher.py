@@ -76,15 +76,15 @@ class SkillMatcher:
                     # 遍历所有分类
                     for category, skills_list in db.get("skills_database", {}).items():
                         for skill_data in skills_list:
-                            # 只加载已安装的 skills
-                            if skill_data.get("installed", False):
-                                skills.append(SkillInfo(
-                                    name=skill_data["name"],
-                                    description=skill_data["description"],
-                                    triggers=skill_data.get("triggers", []),
-                                    priority=skill_data.get("priority", "P2"),
-                                    category=skill_data.get("category", "general")
-                                ))
+                            # 加载所有 skills（无论是否安装）
+                            # 安装状态仅用于提示用户，不影响匹配
+                            skills.append(SkillInfo(
+                                name=skill_data["name"],
+                                description=skill_data["description"],
+                                triggers=skill_data.get("triggers", []),
+                                priority=skill_data.get("priority", "P2"),
+                                category=skill_data.get("category", "general")
+                            ))
                     
                     print(f"✅ 从数据库加载了 {len(skills)} 个 skills")
                     return skills
@@ -183,11 +183,11 @@ class SkillMatcher:
         rules_path = os.path.join(os.path.dirname(__file__), "..", "config", "matching_rules.json")
         
         default_rules = {
-            "keyword_weight": 0.4,
-            "semantic_weight": 0.3,
+            "keyword_weight": 0.5,
+            "semantic_weight": 0.2,
             "frequency_weight": 0.2,
             "preference_weight": 0.1,
-            "min_score_threshold": 50,
+            "min_score_threshold": 30,
             "max_results": 5
         }
         
@@ -273,13 +273,19 @@ class SkillMatcher:
         for trigger in skill.triggers:
             trigger_lower = trigger.lower()
             # 支持多种匹配方式
-            # 1. 触发词包含在请求中
+            # 1. 触发词包含在请求中（子串匹配）
             # 2. 请求包含在触发词中
-            # 3. 分词后部分匹配（简化版：检查关键词）
+            # 3. 对于英文：分词后部分匹配
+            # 4. 对于中文：直接子串匹配
             if (trigger_lower in user_request_lower or 
-                user_request_lower in trigger_lower or
-                any(word in user_request_lower for word in trigger_lower.split() if len(word) > 1)):
+                user_request_lower in trigger_lower):
                 matched.append(trigger)
+            else:
+                # 尝试分词匹配（仅对英文有效）
+                trigger_words = trigger_lower.split()
+                if len(trigger_words) > 1:
+                    if any(word in user_request_lower for word in trigger_words if len(word) > 1):
+                        matched.append(trigger)
         
         # 计算关键词匹配分数
         if len(matched) > 0:
