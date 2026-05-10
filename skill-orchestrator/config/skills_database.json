@@ -1,0 +1,182 @@
+{
+  "skills_database": {
+    "core_development": [
+      {
+        "name": "create-skill",
+        "description": "创建新的 skill",
+        "triggers": ["创建 skill", "编写 skill", "新 skill", "skill 文档"],
+        "priority": "P0",
+        "category": "creation",
+        "source": "builtin",
+        "installed": true
+      },
+      {
+        "name": "find-skills",
+        "description": "查找和安装 skills",
+        "triggers": ["查找 skill", "安装 skill", "有没有 skill", "推荐 skill", "下载 skill"],
+        "priority": "P0",
+        "category": "discovery",
+        "source": "builtin",
+        "installed": true
+      },
+      {
+        "name": "code-review-and-quality",
+        "description": "代码审查和质量检查",
+        "triggers": ["审查", "review", "PR", "代码检查", "合并前", "质量检查"],
+        "priority": "P0",
+        "category": "quality",
+        "source": "addyosmani/agent-skills",
+        "installed": true
+      },
+      {
+        "name": "systematic-debugging",
+        "description": "系统化调试",
+        "triggers": ["bug", "错误", "调试", "不工作", "异常", "报错", "问题排查"],
+        "priority": "P0",
+        "category": "debugging",
+        "source": "anthropics/skills",
+        "installed": true
+      },
+      {
+        "name": "refactor",
+        "description": "代码重构",
+        "triggers": ["重构", "优化代码", "清理代码", "改进结构", "简化", "提取方法"],
+        "priority": "P0",
+        "category": "refactoring",
+        "source": "anthropics/skills",
+        "installed": true
+      }
+    ],
+    "language_specific": [
+      {
+        "name": "java-springboot",
+        "description": "Spring Boot 最佳实践",
+        "triggers": ["Spring Boot", "Java 后端", "Spring", "REST API", "微服务"],
+        "priority": "P1",
+        "category": "language",
+        "source": "vercel-labs/agent-skills",
+        "installed": true
+      },
+      {
+        "name": "python-design-patterns",
+        "description": "Python 设计模式",
+        "triggers": ["Python", "设计模式", "Python 架构", "类设计", "OOP"],
+        "priority": "P1",
+        "category": "language",
+        "source": "anthropics/skills",
+        "installed": true
+      }
+    ],
+    "architecture_design": [
+      {
+        "name": "improve-codebase-architecture",
+        "description": "架构改进",
+        "triggers": ["架构", "重构架构", "改进结构", "模块解耦", "系统设计"],
+        "priority": "P1",
+        "category": "architecture",
+        "source": "anthropics/skills",
+        "installed": true
+      },
+      {
+        "name": "mermaid-diagrams",
+        "description": "绘制图表",
+        "triggers": ["图表", "流程图", "架构图", "可视化", "diagram", "UML", "时序图"],
+        "priority": "P1",
+        "category": "visualization",
+        "source": "anthropics/skills",
+        "installed": true
+      }
+    ],
+    "documentation_testing": [
+      {
+        "name": "documentation-writer",
+        "description": "编写文档",
+        "triggers": ["文档", "README", "写文档", "说明", "API 文档", "技术文档"],
+        "priority": "P2",
+        "category": "documentation",
+        "source": "anthropics/skills",
+        "installed": true
+      },
+      {
+        "name": "webapp-testing",
+        "description": "Web 应用测试",
+        "triggers": ["测试", "Web 测试", "Playwright", "UI 测试", "E2E", "端到端"],
+        "priority": "P2",
+        "category": "testing",
+        "source": "anthropics/skills",
+        "installed": true
+      }
+    ],
+    "advanced_tools": [
+      {
+        "name": "skill-optimizer",
+        "description": "优化 skill 质量",
+        "triggers": ["优化 skill", "改进 skill", "skill 质量", "skill 审查"],
+        "priority": "P1",
+        "category": "optimization",
+        "source": "mcollina/skills",
+        "installed": true
+      },
+      {
+        "name": "api-security",
+        "description": "API 安全检查和加固",
+        "triggers": ["API 安全", "安全审计", "漏洞扫描", "渗透测试"],
+        "priority": "P1",
+        "category": "security",
+        "source": "hardw00t/ai-security-arsenal",
+        "installed": false,
+        "install_command": "npx skills add hardw00t/ai-security-arsenal@api-security -g -y"
+      },
+      {
+        "name": "database-testing",
+        "description": "数据库测试和优化",
+        "triggers": ["数据库测试", "SQL 优化", "性能测试", "数据迁移"],
+        "priority": "P2",
+        "category": "testing",
+        "source": "petrkindlmann/qa-skills",
+        "installed": false,
+        "install_command": "npx skills add petrkindlmann/qa-skills@database-testing -g -y"
+      },
+      {
+        "name": "security-operations-deployment",
+        "description": "安全运维和部署",
+        "triggers": ["安全部署", "DevSecOps", "CI/CD 安全", "容器安全"],
+        "priority": "P1",
+        "category": "security",
+        "source": "harperaa/secure-claude-skills",
+        "installed": false,
+        "install_command": "npx skills add harperaa/secure-claude-skills@security-operations-deployment -g -y"
+      }
+    ],
+    "productivity": [
+      {
+        "name": "create-agent",
+        "description": "创建专用 Agent",
+        "triggers": ["Agent", "子代理", "创建 agent", "专用助手", "自动化"],
+        "priority": "P2",
+        "category": "automation",
+        "source": "builtin",
+        "installed": true
+      },
+      {
+        "name": "strategic-compact",
+        "description": "策略性上下文压缩",
+        "triggers": ["上下文太长", "压缩", "总结对话", "清理上下文"],
+        "priority": "P3",
+        "category": "productivity",
+        "source": "builtin",
+        "installed": true
+      }
+    ]
+  },
+  "auto_install_settings": {
+    "enabled": true,
+    "prompt_before_install": true,
+    "max_auto_installs_per_session": 3,
+    "preferred_sources": [
+      "anthropics/skills",
+      "vercel-labs/agent-skills",
+      "mcollina/skills"
+    ]
+  }
+}

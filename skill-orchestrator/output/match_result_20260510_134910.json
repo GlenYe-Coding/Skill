@@ -1,0 +1,11 @@
+{
+  "request": "帮我创建一个 skill",
+  "matches": [],
+  "plan": {
+    "timestamp": "2026-05-10T13:49:10.989198",
+    "total_matches": 0,
+    "execution_order": [],
+    "parallel_groups": [],
+    "estimated_time_seconds": 0
+  }
+}

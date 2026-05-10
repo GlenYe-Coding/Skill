@@ -1,5 +1,20 @@
 # Available Skills
 
+## 🤖 Skill Orchestrator（智能编排器）
+
+### skill-orchestrator
+- **Source**: Local (XiaoYe Team)
+- **Purpose**: 在每次对话前自动识别和调度需要的 skills
+- **Location**: `skill-orchestrator/SKILL.md`
+- **Features**:
+  - 意图分析和 skill 匹配
+  - 执行计划制定（串行/并行/条件执行）
+  - 冲突解决和异常处理
+  - 结果整合和优化
+- **Usage**: 每次对话开始时自动触发
+
+---
+
 ## Core Development Skills
 
 ### requesting-code-review
@@ -55,12 +70,18 @@
 - **Purpose**: Improve codebase architecture
 - **Install**: `npx skills add anthropics/skills@improve-codebase-architecture`
 
-## Utilities
+## Utilities & Orchestration
 
 ### find-skills
 - **Source**: Built-in
 - **Purpose**: Discover and install skills
 - **Location**: Already available
+
+### skill-orchestrator
+- **Source**: Local (XiaoYe Team)
+- **Purpose**: Intelligent skill orchestration and scheduling
+- **Location**: `skill-orchestrator/SKILL.md`
+- **Note**: This is a custom skill developed for XiaoYe project
 
 ---
 

@@ -1,0 +1,33 @@
+{
+  "timestamp": "2026-05-10T13:49:40.036410",
+  "total_tests": 5,
+  "passed": 3,
+  "failed": 2,
+  "details": [
+    {
+      "test": "关键词匹配测试",
+      "passed": false,
+      "time": 0.0
+    },
+    {
+      "test": "优先级排序测试",
+      "passed": true,
+      "time": 0.0009970664978027344
+    },
+    {
+      "test": "执行计划生成测试",
+      "passed": false,
+      "time": 0.0
+    },
+    {
+      "test": "边界条件测试",
+      "passed": true,
+      "time": 0.0009980201721191406
+    },
+    {
+      "test": "性能基准测试",
+      "passed": true,
+      "time": 0.004985809326171875
+    }
+  ]
+}

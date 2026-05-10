@@ -1,0 +1,56 @@
+{
+  "matching_rules": {
+    "keyword_weight": 0.4,
+    "semantic_weight": 0.3,
+    "frequency_weight": 0.2,
+    "preference_weight": 0.1,
+    "min_score_threshold": 50,
+    "max_results": 5
+  },
+  "execution_settings": {
+    "max_parallel_skills": 3,
+    "skill_timeout_seconds": 30,
+    "enable_cache": true,
+    "cache_ttl_seconds": 300
+  },
+  "priority_mapping": {
+    "P0": {
+      "name": "必须调用",
+      "description": "直接匹配核心需求",
+      "auto_execute": true
+    },
+    "P1": {
+      "name": "强烈建议",
+      "description": "高度相关且能显著提升质量",
+      "auto_execute": true
+    },
+    "P2": {
+      "name": "可选调用",
+      "description": "有帮助但非必需",
+      "auto_execute": false
+    },
+    "P3": {
+      "name": "仅供参考",
+      "description": "可能有用但不确定",
+      "auto_execute": false
+    }
+  },
+  "user_preferences": {
+    "preferred_skills": [],
+    "avoided_skills": [],
+    "custom_triggers": {}
+  },
+  "logging": {
+    "level": "INFO",
+    "format": "%(asctime)s - %(name)s - %(levelname)s - %(message)s",
+    "file": "logs/orchestrator.log",
+    "max_size_mb": 10,
+    "backup_count": 5
+  },
+  "analytics": {
+    "enabled": true,
+    "track_usage": true,
+    "track_performance": true,
+    "report_interval_days": 7
+  }
+}

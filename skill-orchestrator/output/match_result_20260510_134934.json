@@ -1,0 +1,67 @@
+{
+  "request": "帮我创建一个 skill",
+  "matches": [
+    {
+      "skill_name": "create-skill",
+      "score": 65.0,
+      "priority": "P0",
+      "matched_keywords": [
+        "创建 skill",
+        "编写 skill",
+        "新 skill",
+        "skill 文档"
+      ],
+      "reason": "匹配到关键词: 创建 skill, 编写 skill, 新 skill, skill 文档"
+    },
+    {
+      "skill_name": "find-skills",
+      "score": 55.0,
+      "priority": "P0",
+      "matched_keywords": [
+        "查找 skill",
+        "安装 skill",
+        "有没有 skill",
+        "推荐 skill"
+      ],
+      "reason": "匹配到关键词: 查找 skill, 安装 skill, 有没有 skill, 推荐 skill"
+    }
+  ],
+  "plan": {
+    "timestamp": "2026-05-10T13:49:34.672001",
+    "total_matches": 2,
+    "execution_order": [
+      {
+        "phase": "Phase 1 - Critical",
+        "skills": [
+          {
+            "skill_name": "create-skill",
+            "score": 65.0,
+            "priority": "P0",
+            "matched_keywords": [
+              "创建 skill",
+              "编写 skill",
+              "新 skill",
+              "skill 文档"
+            ],
+            "reason": "匹配到关键词: 创建 skill, 编写 skill, 新 skill, skill 文档"
+          },
+          {
+            "skill_name": "find-skills",
+            "score": 55.0,
+            "priority": "P0",
+            "matched_keywords": [
+              "查找 skill",
+              "安装 skill",
+              "有没有 skill",
+              "推荐 skill"
+            ],
+            "reason": "匹配到关键词: 查找 skill, 安装 skill, 有没有 skill, 推荐 skill"
+          }
+        ],
+        "execution_type": "sequential"
+      }
+    ],
+    "parallel_groups": [],
+    "estimated_time_seconds": 10
+  }
+}
